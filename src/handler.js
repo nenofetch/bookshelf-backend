@@ -55,16 +55,16 @@ const addBooks = (request, h) => {
 }
 
 // menampilkan seluruh buku (Kriteria 2)
-const viewAllBooks = (request, h) => {
+const getAllBooks = (request, h) => {
   const { name, reading, finished } = request.query
 
-  if (name === 'dicoding') {
+  if (name !== undefined) {
     const response = h.response({
       status: 'success',
       data: {
         books:
         Books
-          .filter(filtering => filtering.name === true)
+          .filter((book) => book.name.toLowerCase().includes(name.toLowerCase()))
           .map(book => ({
             id: book.id,
             name: book.name,
@@ -157,7 +157,7 @@ const viewAllBooks = (request, h) => {
 }
 
 // Menampilkan buku berdasarkan id (Kriteria 3)
-const viewBooksById = (request, h) => {
+const getBooksById = (request, h) => {
   const { bookId } = request.params
   const book = Books.filter((b) => b.id === bookId)[0]
 
@@ -259,8 +259,8 @@ const deleteBooksById = (request, h) => {
 }
 module.exports = {
   addBooks,
-  viewAllBooks,
-  viewBooksById,
+  getAllBooks,
+  getBooksById,
   editBooksById,
   deleteBooksById
 }
